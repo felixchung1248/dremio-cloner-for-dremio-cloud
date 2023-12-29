@@ -1,0 +1,76 @@
+{"dremio_cloner": [
+	{"command":"put"},
+	{"target": [
+	    {"endpoint": "https://api.dremio.cloud/"},
+	    {"username": "felix.chung@hk.ey.com"},
+	    {"password": "Passw0rd"},
+	    {"verify_ssl": "False"},
+	  	{"is_community_edition": "False"},
+	    {"is_dremio_cloud": "True"},
+	    {"dremio_cloud_org_id": "cd01dfa1-5ac6-4c3b-bcf2-081ce4b3d3a5"},
+	    {"dremio_cloud_project_id": "b8145bba-8797-4bd5-825e-87e3959a8bf6"}]
+	},
+	{"source": [
+		{"filename":"C:\\temp\\dremio_metadata"}]
+	},
+	{"options": [
+
+	  	{"dry_run":"False"},
+
+		{"logging.level":"logging.DEBUG"},
+		{"logging.format":"%(levelname)s:%(asctime)s:%(message)s"},
+		{"logging.filename":"C:\\temp\\dremio_migration.log"},
+	  	{"logging.verbose": "False"},
+
+		{"max_errors":"9999"},
+		{"http_timeout":"10"},
+		{"source.retry_timedout":"false"},
+
+		{"space.process_mode":"skip"},
+		{"folder.process_mode":"create_overwrite"},
+		{"source.process_mode":"skip"},
+		{"pds.process_mode":"promote"},
+		{"vds.process_mode":"create_overwrite"},
+	    {"reflection.process_mode": "skip"},
+	    {"pds.reflection_refresh_mode": "skip"},
+	  	{"wiki.process_mode": "skip"},
+		{"tag.process_mode": "skip"},
+		{"home.process_mode": "skip"},
+		{"vote.process_mode": "skip"},
+		{"wlm.queue.process_mode": "skip"},
+		{"wlm.rule.process_mode": "skip"},
+
+	  	{"space.ignore_missing_acl_user":"True"},
+		{"space.ignore_missing_acl_group":"True"},
+		{"folder.ignore_missing_acl_user":"True"},
+		{"folder.ignore_missing_acl_group":"True"},
+		{"source.ignore_missing_acl_user":"True"},
+		{"source.ignore_missing_acl_group":"True"},
+		{"pds.ignore_missing_acl_user":"True"},
+		{"pds.ignore_missing_acl_group":"True"},
+		{"vds.ignore_missing_acl_user":"True"},
+		{"vds.ignore_missing_acl_group":"True"},
+
+	  	{"space.filter": "*"},
+		{"space.exclude.filter": ""},
+		{"space.folder.filter":"*"},
+		{"space.folder.exclude.filter":""},
+		{"space.folder.exclude.filter.paths": ["ignorefolder1/folder2", "dontProcessfolder2"]},
+
+		{"source.filter":"*"},
+		{"source.exclude.filter":""},
+		{"source.folder.filter":"*"},
+		{"source.folder.exclude.filter":""},
+
+	  	{"reflection.filter_mode": "apply_vds_pds_filter"},
+
+		{"pds.filter":"*"},
+		{"pds.exclude.filter":""},
+	  	{"pds.list.useapi":"False"},
+
+		{"vds.filter":"*"},
+		{"vds.exclude.filter":""},
+		{"vds.exclude.filter.paths": ["folder/ignoreVDSxyz", "*/ignoreVDSwithWildcard"]},
+	  	{"vds.max_hierarchy_depth":"10"}]
+	}]
+}
