@@ -12,6 +12,16 @@ pipeline {
         stage('Run Dremio cloner') {
             steps {
                 script {
+					// Determine the OS
+					def isUnix = sh(script: 'echo $OSTYPE', returnStdout: true).trim().contains('linux') || sh(script: 'echo $OSTYPE', returnStdout: true).trim().contains('darwin')
+	
+					// Set the workspace path based on the OS
+					def workspacePath = isUnix ? env.WORKSPACE : env.WORKSPACE.replace("\\", "/")
+	
+					// Log the OS and workspace path for troubleshooting
+					echo "Running on ${isUnix ? 'Unix/Linux' : 'Windows'}"
+					echo "Workspace path: ${workspacePath}"
+					
                     // Run the Python script within the Docker container
                     docker.withRegistry("https://${env.DOCKER_REGISTRY}", env.DOCKER_REGISTRY_CREDENTIALS_ID) {
                         // Create a Docker image object
