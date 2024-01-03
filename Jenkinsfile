@@ -1,3 +1,22 @@
+def convertWindowsPathToUnixStyle(String windowsPath) {
+	// Determine the OS
+	// OS-specific commands
+	def os = env.OS
+	def isUnix = (os == null || os.contains('Windows') == false)
+	
+	if (isUnix){
+		return windowsPath
+	} else {
+		// Replace backslashes with forward slashes
+		def unixStylePath = windowsPath.replace('\\', '/')
+	
+		// Replace 'C:' with '/c'
+		unixStylePath = unixStylePath.replaceFirst(/([A-Za-z]):/, '/$1')
+		// Convert to lowercase drive letter (optional, based on preference/requirement)
+		return unixStylePath.toLowerCase()						
+	}
+}
+
 pipeline {
     agent any
 
@@ -12,24 +31,7 @@ pipeline {
         stage('Run Dremio cloner') {
             steps {
                 script {
-					def convertWindowsPathToUnixStyle(String windowsPath) {
-						// Determine the OS
-						// OS-specific commands
-						def os = env.OS
-						def isUnix = (os == null || os.contains('Windows') == false)
 					
-						if (isUnix){
-							return windowsPath
-						} else {
-							// Replace backslashes with forward slashes
-							def unixStylePath = windowsPath.replace('\\', '/')
-						
-							// Replace 'C:' with '/c'
-							unixStylePath = unixStylePath.replaceFirst(/([A-Za-z]):/, '/$1')
-							// Convert to lowercase drive letter (optional, based on preference/requirement)
-							return unixStylePath.toLowerCase()						
-						}
-					}
 					
 					def workspacePath = convertWindowsPathToUnixStyle(env.WORKSPACE)
 	
