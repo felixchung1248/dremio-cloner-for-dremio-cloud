@@ -17,8 +17,17 @@ pipeline {
 					def os = env.OS
 					def isUnix = (os == null || os.contains('Windows') == false)
 					
-					// Set the workspace path based on the OS	
-					def workspacePath = isUnix ? env.WORKSPACE : env.WORKSPACE.replace("\\", "/")
+					if (isUnix){
+						def workspacePath = env.WORKSPACE
+					} else {
+						// Replace backslashes with forward slashes
+						String unixStylePath = env.WORKSPACE.replace('\', '/')
+						
+						// Replace 'C:' with '/c'
+						unixStylePath = unixStylePath.replaceFirst(/([A-Za-z]):/, '/$1')
+						// Convert to lowercase drive letter (optional, based on preference/requirement)
+						def workspacePath = unixStylePath.toLowerCase()						
+					}
 	
 					// Log the OS and workspace path for troubleshooting
 					echo "Running on ${isUnix ? 'Unix/Linux' : 'Windows'}"
