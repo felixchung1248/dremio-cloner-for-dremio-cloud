@@ -14,8 +14,8 @@ pipeline {
                 script {
 					// Determine the OS
 					// OS-specific commands
-					def os = System.getenv('OS')
-					def isUnix = !os.contains('Windows')
+					def os = env.OS
+					def isUnix = (os == null || os.contains('Windows') == false)
 					
 					// Set the workspace path based on the OS	
 					def workspacePath = isUnix ? env.WORKSPACE : env.WORKSPACE.replace("\\", "/")
