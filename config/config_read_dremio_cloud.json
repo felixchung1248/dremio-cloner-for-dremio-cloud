@@ -12,13 +12,13 @@
 	{"dremio_cloud_project_id": "a340bd7d-89a1-4670-8bec-84278b1cf4ec"}]
   },
   {"target": [
-	{"filename":"C:\\temp\\dremio_metadata"},
+	{"filename":"dremio_metadata"},
 	{"overwrite": "True"}]
   },
   {"options": [
 	{"logging.level":"logging.DEBUG"},
 	{"logging.format":"%(levelname)s:%(asctime)s:%(message)s"},
-	{"logging.filename":"C:\\temp\\dremio_cloner.log"},
+	{"logging.filename":"dremio_cloner_read.log"},
 	{"logging.verbose": "False"},
 
 	{"max_errors":"9999"},

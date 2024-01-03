@@ -11,7 +11,7 @@
 	    {"dremio_cloud_project_id": "b8145bba-8797-4bd5-825e-87e3959a8bf6"}]
 	},
 	{"source": [
-		{"filename":"C:\\temp\\dremio_metadata"}]
+		{"filename":"dremio_metadata"}]
 	},
 	{"options": [
 
@@ -19,7 +19,7 @@
 
 		{"logging.level":"logging.DEBUG"},
 		{"logging.format":"%(levelname)s:%(asctime)s:%(message)s"},
-		{"logging.filename":"C:\\temp\\dremio_migration.log"},
+		{"logging.filename":"dremio_cloner_write.log"},
 	  	{"logging.verbose": "False"},
 
 		{"max_errors":"9999"},
