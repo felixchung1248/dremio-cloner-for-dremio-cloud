@@ -30,13 +30,8 @@ pipeline {
     stages {
         stage('Run Dremio cloner') {
             steps {
-                script {
-					
-					
+                script {					
 					def workspacePath = convertWindowsPathToUnixStyle(env.WORKSPACE)
-	
-					// Log the OS and workspace path for troubleshooting
-					echo "Running on ${isUnix ? 'Unix/Linux' : 'Windows'}"
 					echo "Workspace path: ${workspacePath}"
 					
                     // Run the Python script within the Docker container
