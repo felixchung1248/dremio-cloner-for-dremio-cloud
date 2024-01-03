@@ -13,13 +13,15 @@ pipeline {
             steps {
                 script {
 					// Determine the OS
-					def osName = System.properties['os.name'].toLowerCase()
+					// OS-specific commands
+					def os = System.getenv('OS')
+					def isUnix = !os.contains('Windows')
 					
 					// Set the workspace path based on the OS	
-					def workspacePath = osName.contains('windows') ? env.WORKSPACE : env.WORKSPACE.replace("\\", "/")
+					def workspacePath = isUnix ? env.WORKSPACE : env.WORKSPACE.replace("\\", "/")
 	
 					// Log the OS and workspace path for troubleshooting
-					echo "Running on ${osName.contains('windows') ? 'Unix/Linux' : 'Windows'}"
+					echo "Running on ${isUnix ? 'Unix/Linux' : 'Windows'}"
 					echo "Workspace path: ${workspacePath}"
 					
                     // Run the Python script within the Docker container
