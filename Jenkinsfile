@@ -9,25 +9,13 @@ pipeline {
     }
 
     stages {
-        stage('Pull Docker Image') {
-            steps {
-                script {
-                    // Log in to the Harbor registry
-                    docker.withRegistry("https://${env.DOCKER_REGISTRY}", env.DOCKER_REGISTRY_CREDENTIALS_ID) {
-                        // Pull the Python image from Harbor
-                        docker.image("${env.DOCKER_REGISTRY}/${env.PROJECT_NAME}/${env.DOCKER_IMAGE}:${env.DOCKER_TAG}").pull()
-                    }
-                }
-            }
-        }
-
         stage('Run Dremio cloner') {
             steps {
                 script {
                     // Run the Python script within the Docker container
                     docker.withRegistry("https://${env.DOCKER_REGISTRY}", env.DOCKER_REGISTRY_CREDENTIALS_ID) {
                         // Create a Docker image object
-                        def pythonImage = docker.image("${env.DOCKER_REGISTRY}/${env.DOCKER_IMAGE}:${env.DOCKER_TAG}")
+                        def pythonImage = docker.image("${env.DOCKER_REGISTRY}/${env.PROJECT_NAME}/${env.DOCKER_IMAGE}:${env.DOCKER_TAG}")
                         // Run the container with the script mounted and execute the Python script
                         pythonImage.inside("-v ${env.WORKSPACE}:/app/workspace") {
                             sh """
