@@ -21,7 +21,7 @@ pipeline {
 						def workspacePath = env.WORKSPACE
 					} else {
 						// Replace backslashes with forward slashes
-						String unixStylePath = env.WORKSPACE.replace('\', '/')
+						String unixStylePath = env.WORKSPACE.replace('\\', '/')
 						
 						// Replace 'C:' with '/c'
 						unixStylePath = unixStylePath.replaceFirst(/([A-Za-z]):/, '/$1')
