@@ -20,8 +20,8 @@ pipeline {
                         // Run the container with the script mounted and execute the Python script
                         pythonImage.inside("-v ${env.WORKSPACE}:/app/workspace") {
                             sh """
-								python /app/workspace/src/dremio_cloner.py /app/workspace/config/config_read_dremio_cloud.json
-								python /app/workspace/src/dremio_cloner.py /app/workspace/config/config_write_dremio_cloud.json
+								python3 /app/workspace/src/dremio_cloner.py /app/workspace/config/config_read_dremio_cloud.json
+								python3 /app/workspace/src/dremio_cloner.py /app/workspace/config/config_write_dremio_cloud.json
 							   """
                         }
                     }
