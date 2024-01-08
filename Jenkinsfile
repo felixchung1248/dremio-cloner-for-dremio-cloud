@@ -5,7 +5,7 @@ pipeline {
         SCRIPT_PATH = 'src/dremio_cloner.py' // Path to your Python script in the Git repository
 		PROJECT_NAME = 'demo_project_01'
 		DOCKER_IMAGE = 'python-golden'
-		DOCKER_TAG = '9'
+		DOCKER_TAG = '11'
     }
 
     stages {
