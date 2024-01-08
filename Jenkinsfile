@@ -11,8 +11,8 @@ pipeline {
 		PROJECT_NAME = 'demo_project_01'
 		DOCKER_IMAGE = 'python-golden'
 		DOCKER_TAG = '11'
-        DREMIO_USR = credentials('dremio-usr')
-        DREMIO_PW = credentials('dremio-pw')
+        DREMIO_USR_SANDBOX = credentials('dremio-usr-sandbox')
+        DREMIO_PW_SANDBOX = credentials('dremio-pw-sandbox')
     }
 
     stages {
@@ -40,7 +40,7 @@ pipeline {
                         // Run the container with the script mounted and execute the Python script
                         pythonImage.inside("-v ${env.WORKSPACE}:/app/workspace") {
                             sh """
-                                python3 /app/workspace/replace_param.py json_file_path=config/config_read_dremio_cloud.json endpoint=${env.DREMIO_URL_SANDBOX} username=${env.DREMIO_USR_SANDBOX} password=${env.DREMIO_PW_SANDBOX} dremio_cloud_org_id=${env.DREMIO_CLOUD_ORG_ID_SANDBOX} dremio_cloud_project_id=${env.DREMIO_CLOUD_PROJECT_ID_SANDBOX} space.folder.filter=${env.FOLDER_PATH} vds.filter.names=${env.DATASET_PATH}
+                                python3 /app/workspace/replace_param.py json_file_path=config/config_read_dremio_cloud.json endpoint=${env.DREMIO_URL_SANDBOX} username=${env.DREMIO_USR_SANDBOX} password=${env.DREMIO_PW_SANDBOX} dremio_cloud_org_id=${env.DREMIO_CLOUD_ORG_ID_SANDBOX} dremio_cloud_project_id=${env.DREMIO_CLOUD_PROJECT_ID_SANDBOX} space.folder.filter='${env.FOLDER_PATH}' vds.filter.names=${env.DATASET_NAME}
 								python3 /app/workspace/src/dremio_cloner.py /app/workspace/config/config_read_dremio_cloud.json_filled
 								python3 /app/workspace/src/dremio_cloner.py /app/workspace/config/config_write_dremio_cloud.json
 							   """
