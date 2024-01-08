@@ -1,22 +1,3 @@
-def convertWindowsPathToUnixStyle(String windowsPath) {
-	// Determine the OS
-	// OS-specific commands
-	def os = env.OS
-	def isUnix = (os == null || os.contains('Windows') == false)
-	
-	if (isUnix){
-		return windowsPath
-	} else {
-		// Replace backslashes with forward slashes
-		def unixStylePath = windowsPath.replace('\\', '/')
-	
-		// Replace 'C:' with '/c'
-		unixStylePath = unixStylePath.replaceFirst(/([A-Za-z]):/, '/$1')
-		// Convert to lowercase drive letter (optional, based on preference/requirement)
-		return unixStylePath.toLowerCase()						
-	}
-}
-
 pipeline {
     agent any
 
@@ -31,15 +12,13 @@ pipeline {
         stage('Run Dremio cloner') {
             steps {
                 script {					
-					def workspacePath = convertWindowsPathToUnixStyle(env.WORKSPACE)
-					echo "Workspace path: ${workspacePath}"
 					
                     // Run the Python script within the Docker container
                     docker.withRegistry("https://${env.DOCKER_REGISTRY}", env.DOCKER_REGISTRY_CREDENTIALS_ID) {
                         // Create a Docker image object
                         def pythonImage = docker.image("${env.DOCKER_REGISTRY}/${env.PROJECT_NAME}/${env.DOCKER_IMAGE}:${env.DOCKER_TAG}")
                         // Run the container with the script mounted and execute the Python script
-                        pythonImage.inside("-v ${workspacePath}:/app/workspace") {
+                        pythonImage.inside("-v ${env.WORKSPACE}:/app/workspace") {
                             sh """
 								python /app/workspace/src/dremio_cloner.py /app/workspace/config/config_read_dremio_cloud.json
 								python /app/workspace/src/dremio_cloner.py /app/workspace/config/config_write_dremio_cloud.json
