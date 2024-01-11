@@ -8,9 +8,6 @@ pipeline {
 
     environment {
         SCRIPT_PATH = 'src/dremio_cloner.py' // Path to your Python script in the Git repository
-		PROJECT_NAME = 'demo_project_01'
-		DOCKER_IMAGE = 'python-golden'
-		DOCKER_TAG = '11'
         DREMIO_USR_SANDBOX = credentials('dremio-usr-sandbox')
         DREMIO_PW_SANDBOX = credentials('dremio-pw-sandbox')
     }
@@ -36,7 +33,7 @@ pipeline {
                     // Run the Python script within the Docker container
                     docker.withRegistry("https://${env.DOCKER_REGISTRY}", env.DOCKER_REGISTRY_CREDENTIALS_ID) {
                         // Create a Docker image object
-                        def pythonImage = docker.image("${env.DOCKER_REGISTRY}/${env.PROJECT_NAME}/${env.DOCKER_IMAGE}:${env.DOCKER_TAG}")
+                        def pythonImage = docker.image("${env.DOCKER_REGISTRY}/${env.GOLDEN_PROJECT_NAME}/${env.GOLDEN_DOCKER_IMAGE}:${env.GOLDEN_DOCKER_TAG}")
                         // Run the container with the script mounted and execute the Python script
                         pythonImage.inside("-v ${env.WORKSPACE}:/app/workspace") {
                             sh """
