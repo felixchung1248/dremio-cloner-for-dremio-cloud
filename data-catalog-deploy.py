@@ -42,17 +42,17 @@ def get_db_connection(db_config):
     conn = psycopg2.connect(conn_string)
     return conn
 
-# Check if at least one additional argument was passed (excluding the script name)
-if len(sys.argv) < 2:
-    print("Usage: python3 data-catalog-deploy.py batch_key=value")
-    sys.exit(1)
-# Extract the batch_key from the command line arguments
-batch_key_arg = sys.argv[1]
-if batch_key_arg.startswith('batch_key='):
-    batchKey = batch_key_arg.split('=', 1)[1]
-else:
-    print("The batch_key argument was not provided correctly.")
-    sys.exit(1)
+# Function to parse key-value pairs from command line arguments
+def parse_key_value_pairs(argv):
+    params = {}
+    for arg in argv[1:]:  # Skip the script name
+        key, value = arg.split('=', 1)
+        params[key] = value
+    return params
+
+parameters = parse_key_value_pairs(sys.argv)
+batchKey = parameters['batch_key']
+token = parameters['token']
 
 with get_db_connection(db_config) as conn:
     with conn.cursor() as cursor:
@@ -121,7 +121,7 @@ with get_db_connection(db_config) as conn:
                 ),
             )
             # Create rest emitter
-            rest_emitter = DatahubRestEmitter(gms_server="http://datamgmtdemo01.eastasia.cloudapp.azure.com:31080", token="eyJhbGciOiJIUzI1NiJ9.eyJhY3RvclR5cGUiOiJVU0VSIiwiYWN0b3JJZCI6ImRhdGFodWIiLCJ0eXBlIjoiUEVSU09OQUwiLCJ2ZXJzaW9uIjoiMiIsImp0aSI6Ijg0MDJiNTY2LTI1YzItNDJkMC05ODc5LWVhYjA0MzM4ODYwZSIsInN1YiI6ImRhdGFodWIiLCJpc3MiOiJkYXRhaHViLW1ldGFkYXRhLXNlcnZpY2UifQ.eliCy-PWOQGMC3PFjl-1UTlQjPhgamehTZ7KDzqisaU")
+            rest_emitter = DatahubRestEmitter(gms_server="http://datamgmtdemo01.eastasia.cloudapp.azure.com:31080", token=token)
             cursor.execute("update DATA_CATALOG_DRAFT set status = %s where batch_key=%s",('Completed',batchKey,))
             rest_emitter.emit(event)
             conn.commit()

@@ -13,6 +13,7 @@ pipeline {
         DREMIO_PW_SANDBOX = credentials('dremio-pw-sandbox')
 		DREMIO_USR_PROD = credentials('dremio-usr-prod')
         DREMIO_PW_PROD = credentials('dremio-pw-prod')
+        DATAHUB_TOKEN = credentials('datahub-token')
     }
 
     stages {
@@ -66,7 +67,7 @@ pipeline {
                         // Run the container with the script mounted and execute the Python script
                         pythonImage.inside("-v ${env.WORKSPACE}:/app/workspace") {
                             sh """
-                                python3 /app/workspace/data-catalog-deploy.py batch_key=${env.BATCH_KEY}
+                                python3 /app/workspace/data-catalog-deploy.py batch_key=${env.BATCH_KEY} token=${env.DATAHUB_TOKEN}
 							   """
                         }
                     }
