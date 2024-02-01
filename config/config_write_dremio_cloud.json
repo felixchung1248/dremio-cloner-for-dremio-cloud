@@ -1,14 +1,14 @@
 {"dremio_cloner": [
 	{"command":"put"},
 	{"target": [
-	    {"endpoint": "https://api.dremio.cloud/"},
-	    {"username": "felix.chung@hk.ey.com"},
-	    {"password": "Passw0rd"},
+	    {"endpoint": "PARAM_ENDPOINT"},
+	    {"username": "PARAM_USERNAME"},
+	    {"password": "PARAM_PW"},
 	    {"verify_ssl": "False"},
 	  	{"is_community_edition": "False"},
 	    {"is_dremio_cloud": "True"},
-	    {"dremio_cloud_org_id": "cd01dfa1-5ac6-4c3b-bcf2-081ce4b3d3a5"},
-	    {"dremio_cloud_project_id": "b8145bba-8797-4bd5-825e-87e3959a8bf6"}]
+	    {"dremio_cloud_org_id": "PARAM_DREMIO_CLOUD_ORG_ID"},
+	    {"dremio_cloud_project_id": "PARAM_DREMIO_CLOUD_PROJECT_ID"}]
 	},
 	{"source": [
 		{"filename":"dremio_metadata"}]

@@ -10,7 +10,7 @@ def parse_key_value_pairs(argv):
     return params
 
 # Function to recursively replace PARAM_ values with provided parameters in the JSON structure
-def replace_params(obj, params):
+def replace_params(obj, params,json_file_path):
     dremio_cloner = obj['dremio_cloner']
     source = dremio_cloner[1]['source']
     source[0]['endpoint'] = params['endpoint']
@@ -19,11 +19,12 @@ def replace_params(obj, params):
     source[7]['dremio_cloud_org_id'] = params['dremio_cloud_org_id']
     source[8]['dremio_cloud_project_id'] = params['dremio_cloud_project_id']
 
-    options = dremio_cloner[3]['options']
-    options[22]['space.folder.filter'] = params['space.folder.filter']
+    if "config_read_dremio_cloud.json" in json_file_path:
+        options = dremio_cloner[3]['options']
+        options[22]['space.folder.filter'] = params['space.folder.filter']
 
-    vds_filter_names = params['vds.filter.names'].split(',')
-    options[35]['vds.filter.names'] = vds_filter_names
+        vds_filter_names = params['vds.filter.names'].split(',')
+        options[35]['vds.filter.names'] = vds_filter_names
 
 
 # Parse the command-line arguments
@@ -45,7 +46,7 @@ except FileNotFoundError:
     sys.exit(1)
 
 # Replace the PARAM_ values in the JSON data
-replace_params(data, parameters)
+replace_params(data, parameters,json_file_path)
 
 # Write the modified JSON data back to the file
 with open(f"{json_file_path}_filled", 'w', encoding='utf-8') as file:
