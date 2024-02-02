@@ -78,7 +78,7 @@ with get_db_connection(db_config) as conn:
                         "VARCHAR": case1,
                         "BOOLEAN": case2,
                         "DECIMAL": case3,
-                        "INT": case3,
+                        "INTEGER": case3,
                         "BIGINT": case3,
                         "FLOAT": case3,
                         "DOUBLE": case3,
